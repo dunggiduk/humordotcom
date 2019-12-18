@@ -56,7 +56,7 @@ Import 방법
 
 
 ### 유머 게시판
-![humordotcom-humorboard](https://user-images.githubusercontent.com/40911953/71060453-dcbfc880-21a8-11ea-8a86-008ce81d82ef.png)
+![humordotcom-board](https://user-images.githubusercontent.com/40911953/71102175-5da7b000-21fb-11ea-8db0-dd1405dccbe2.png)
 - 글쓰기 제공
 
 
