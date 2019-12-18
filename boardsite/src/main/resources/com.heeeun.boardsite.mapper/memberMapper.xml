@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heeeun.boardsite.mapper.memberMapper">
+
+	<insert id="insertMember" parameterType="com.heeeun.boardsite.member.Member">
+		insert into member(mId,mPassword,mMail,mNick) values(#{mId},#{mPassword},#{mMail},#{mNick})
+	</insert>
+
+	<update id="updateMember" parameterType="com.heeeun.boardsite.member.Member">
+		update member
+		set mPassword=#{mPassword}, mMail=#{mMail}, mNick=#{mNick}
+		where mId = #{mId}
+	</update>
+	
+	<delete id="deleteMember">
+		update member
+		set mActivity = 1
+		where mId = #{mId}
+	</delete>
+
+	<select id="selectAll" resultType="com.heeeun.boardsite.member.Member">
+		select *
+		from member
+	</select>
+
+	<select id="selectById" resultType="com.heeeun.boardsite.member.Member">
+		select *
+		from member
+		where mId = #{mId}
+	</select>
+	
+	<select id="selectByMail" resultType="com.heeeun.boardsite.member.Member">
+		select *
+		from member
+		where mMail = #{mMail}
+	</select>
+	
+	<select id="duplcheckId" resultType="Integer">
+		select COUNT(*) AS CNT
+		from member
+		where mId = #{mId}
+	</select>
+	
+	<select id="loginMember" resultType="com.heeeun.boardsite.member.Member">
+		select *
+		from member
+		where mId = #{mId} AND mPassword = #{mPassword} AND mActivity = 0
+	</select>
+	
+	<select id="call_grade">
+		EXEC insert_board_next(#{mId})
+	</select>
+</mapper>

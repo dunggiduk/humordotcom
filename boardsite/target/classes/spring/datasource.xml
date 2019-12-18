@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						">
+	
+	<!-- properties file사용설정 -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<!-- Apache DataSource -->
+	<bean id="apacheDataSource" 
+	      class="org.apache.commons.dbcp2.BasicDataSource">
+	      <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+	      <property name="url" value="${jdbc.url}"/>
+	      <property name="username" value="${jdbc.username}"/>
+	      <property name="password" value="${jdbc.password}"/>
+	</bean>
+	<!-- 아파치 데이터 소스를 Dao의 data sorce에 넣어주면 작동함 -->
+	<!-- 여기부터는 마이바티스 설정 -->
+	<!-- sql 세션 팩토리와 sql 세션을 가지고 있는 SqlSessionFactoryBean을 등록 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		 <property name="dataSource" ref="apacheDataSource" />
+		 <property name="configLocation" value="classpath:mybatis-config.xml"/>
+		 <!--  
+		 <property name="transationFactory">
+		 	<bean class = "org.mybatis.spring.transaction.SpringManagedTransactionFactory"/>
+		 </property>
+		 -->
+		 <property name="mapperLocations">
+		 	<list>
+		  		<value>classpath:com.heeeun.boardsite.mapper/memberMapper.xml</value>
+		  		<value>classpath:com.heeeun.boardsite.mapper/boardMapper.xml</value>
+		  		<value>classpath:com.heeeun.boardsite.mapper/weekVMapper.xml</value>
+		  	</list>
+		 </property>
+	</bean>
+	<!-- 
+	<bean id = "transationmanager" class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="atasorce"></property>
+	</bean>
+	 -->
+	<bean id="sqlSession" 
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+	</bean>
+	
+
+
+</beans>

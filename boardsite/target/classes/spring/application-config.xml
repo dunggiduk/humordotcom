@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/security 
+						http://www.springframework.org/schema/security/spring-security.xsd">
+	<import resource="datasource.xml" />
+	<context:annotation-config/>
+	
+	<!-- annotation으로 스캔 했을 시 -->
+	<context:component-scan base-package="com.heeeun.boardsite.board"/>
+	<context:component-scan base-package="com.heeeun.boardsite.weekv"/>
+	<!-- Uncomment and add your base-package here: 
+	<context:component-scan base-package="org.springframework.samples.service"/> -->
+	
+	<!-- bean으로 등록했을 시 -->
+	<bean id="memberDao" class="com.heeeun.boardsite.member.MemberDaoImpl">
+		<property name="sqlsession" ref="sqlSession"></property>
+	</bean>
+
+	<bean id="memberService"
+		class="com.heeeun.boardsite.member.MemberServiceImpl">
+		<property name="memberDao" ref="memberDao"></property>
+	</bean>
+	
+
+	
+		<!-- email -->
+    <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />  
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+     <property name="host" value="smtp.naver.com" />
+     <property name="port" value="587" />
+     <property name="username" value="21gmldms@naver.com" />
+     <property name="password" value="21gmldms" />
+     <property name="javaMailProperties">
+         <props>
+             <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+             <prop key="mail.smtp.starttls.enable">true</prop>
+             <prop key="mail.smtp.auth">true</prop>
+         </props>
+     </property>
+ 	</bean>
+
+	<!-- multipartResolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
+	
+	
+
+
+</beans>

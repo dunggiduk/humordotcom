@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heeeun.boardsite.mapper.boardMapper">
+	<!-- mapping -->
+		<resultMap type="com.heeeun.boardsite.board.Board" id="BoardResultMap">
+			<id column="bNo" property="bNo"/>
+			<result column="mId" property="mId"/>
+			<result column="bIp" property="bIp"/>
+			<result column="bNick" property="bNick"/>
+			<result column="bPassword" property="bPassword"/>
+			<result column="bTitle" property="bTitle"/>
+			<result column="bContent" property="bContent"/>
+			<result column="bDay" property="bDay"/>
+			<result column="bTime" property="bTime"/>
+			<result column="bViews" property="bViews"/>
+			<result column="bImage" property="bImage"/>
+			<result column="bVote" property="bVote"/>
+			<collection property="bReply" ofType="com.heeeun.boardsite.board.BReply">
+				<result column="bNo" property="bNo"/>
+				<result column="rNo" property="rNo"/>
+				<result column="rMid" property="rMid"/>
+				<result column="rNick" property="rNick"/>
+				<result column="rPassword" property="rPassword"/>
+				<result column="rContent" property="rContent"/>
+				<result column="rDay" property="rDay"/>
+				<result column="rTime" property="rTime"/>
+			</collection>
+		</resultMap>
+		
+				<resultMap type="com.heeeun.boardsite.board.Board" id="BoardResultMap2">
+			<id column="bNo" property="bNo"/>
+			<result column="mId" property="mId"/>
+			<result column="bIp" property="bIp"/>
+			<result column="bNick" property="bNick"/>
+			<result column="bPassword" property="bPassword"/>
+			<result column="bTitle" property="bTitle"/>
+			<result column="bContent" property="bContent"/>
+			<result column="bDay" property="bDay"/>
+			<result column="bTime" property="bTime"/>
+			<result column="bViews" property="bViews"/>
+			<result column="bImage" property="bImage"/>
+			<collection property="Vote" ofType="com.heeeun.boardsite.board.Vote">
+				<result column="bNo" property="bNo"/>
+				<result column="vNo" property="vNo"/>
+				<result column="mId" property="mId"/>
+			</collection>
+			<collection property="bReply" ofType="com.heeeun.boardsite.board.BReply">
+				<result column="bNo" property="bNo"/>
+				<result column="rNo" property="rNo"/>
+				<result column="rMid" property="rMid"/>
+				<result column="rNick" property="rNick"/>
+				<result column="rPassword" property="rPassword"/>
+				<result column="rContent" property="rContent"/>
+				<result column="rDay" property="rDay"/>
+				<result column="rTime" property="rTime"/>
+			</collection>
+		</resultMap>
+	<!-- Board -->
+		<insert id="insertBoard" parameterType="com.heeeun.boardsite.board.Board">
+			insert into Board(bNo,mId,bIp,bNick,bPassword,bTitle,bContent,bDay,bTime,bImage) 
+			values(bNo.nextval,#{mId},#{bIp},#{bNick},#{bPassword},#{bTitle},#{bContent},to_char(SYSDATE,'YYYY/MM/DD'),to_char(SYSDATE,'hh:mi:ss'),#{bImage})
+		</insert>
+	
+		<update id="updateBoard" parameterType="com.heeeun.boardsite.board.Board">
+			update Board
+			set bNick=#{bNick}, bPassword=#{bPassword}, bTitle=#{bTitle}, bDay=to_char(SYSDATE,'YYYY/MM/DD'),bTime=to_char(SYSDATE,'hh:mi:ss'),bImage=#{bImage}
+			where bNo = #{bNo}
+		</update>
+		
+		<delete id="deleteBoard" parameterType="Integer">
+			delete from Board where bNo = #{bNo}
+		</delete>
+	<!-- Board Comment -->
+		<insert id="insertBoardC" parameterType="com.heeeun.boardsite.board.BReply">
+			INSERT INTO BReply(bNo,rNo,rMid,rNick,rPassword,rContent,rDay,rTime) 
+			VALUES(#{bNo},rNo.nextval,#{rMid},#{rNick},#{rPassword},#{rContent},to_char(SYSDATE,'YYYY/MM/DD'),to_char(SYSDATE,'hh:mi:ss'))
+		</insert>
+		
+		<update id="updateBoardC" parameterType="com.heeeun.boardsite.board.BReply">
+			update BReply
+			set rNick=#{rNick}, rPassword=#{rPassword}, rContent=#{rContent}, bTitle=#{bTitle}, rDay=to_char(SYSDATE,'YYYY/MM/DD'),rTime=to_char(SYSDATE,'hh:mi:ss')
+			where bNo = #{bNo}
+		</update>
+		
+		<delete id="deleteBoardC">
+			delete
+			from BReply
+			where rNo = #{rNo}
+		</delete>
+		
+	<!-- Vote -->
+		<select id="voteCheck" parameterType="com.heeeun.boardsite.board.Vote" resultType="Integer">
+			select count(*)
+			from vote
+			where bNo = #{bNo} AND mId = #{mId}
+		</select>
+		
+		<insert id="insertVote" parameterType="com.heeeun.boardsite.board.Vote">
+			insert into vote(vNo,bNo, mId)
+			values(vNo.nextval,#{bNo}, #{mId})
+		</insert>
+		
+		<update id="plusBvote">
+			update Board
+			set bVote = bVote+1
+			where bNo = #{bNo}
+		</update>
+		
+		<delete id="deleteVote" parameterType="com.heeeun.boardsite.board.Vote">
+			delete from vote
+			where bNo = #{bNo} AND mId = #{mId}
+		</delete>
+		
+		<update id="minusBvote">
+			update Board
+			set bVote = bVote-1
+			where bNo = #{bNo}
+		</update>
+		
+	<!-- select -->		
+		<select id="selectBAll" resultMap="BoardResultMap2">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			order by b.bNo DESC
+		</select>
+		
+		<select id="selectBByNo" resultType="HashMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where b.bNo = #{bNo}
+			order by r.rNo DESC
+		</select>
+				<!-- 조회수 증가 -->
+				<update id="updateviews">
+					update Board
+					set bViews = bViews + 1
+					where bNo = #{bNo}
+				</update>
+			
+		<select id="selectBById" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where b.mId = #{b.mId}
+			order by b.bNo DESC
+		</select>
+		
+		<!-- 내가 쓴 글 정보 -->
+		<select id="selectBByIdd" parameterType="String" resultType="Integer">
+			select count(*)
+			from Board
+			where mId = #{mId}
+		</select>
+
+		<select id="selectBByAdmin"  resultMap="BoardResultMap2">
+			select * 
+			from board 
+			where mId = 'admin' 
+			order by bNo DESC
+		</select>
+				
+		<select id="mainbestOfbest"  resultMap="BoardResultMap2">
+		<![CDATA[
+			select *
+			from(select *
+				 from(select *
+					  from Board
+					  order by bVote desc) 
+				 where rownum <=10) b
+			left join breply r
+			on b.bNo = r.bNo
+          ]]>
+		</select>
+		
+		<select id="mainbestOftoday"  resultMap="BoardResultMap2">
+		<![CDATA[
+			select *
+			from(
+				 select *
+				 from(select *
+					  from (select * 
+					        from board 
+					        where bDay = (select to_char(sysdate, 'YYYY/MM/DD') from dual))
+					  order by bVote desc) 
+				 where rownum <=10) b
+			left join breply r
+			on b.bNo = r.bNo
+          ]]>
+		</select>
+
+	<!-- search -->	
+
+		<select id="selectBByNick" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where b.bNick like '%'||#{bNick}||'%' 
+			order by b.bNo DESC
+		</select>
+		
+		<select id="selectBByTitle" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where b.bTitle like '%'||#{bTitle}||'%'
+			order by b.bNo DESC
+		</select>
+		
+		<select id="selectBByContent" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where b.bContent like '%'||#{bContent}||'%'
+			order by b.bNo DESC
+		</select>
+		
+		<select id="selectBByTitleNContent" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where b.bTitle like '%'||#{Keyword}||'%' OR b.bContent like '%'||#{Keyword}||'%'
+			order by b.bNo DESC
+		</select>
+		
+	<!-- comment -->
+	
+		<select id="selectBByCommentRno" resultMap="BoardResultMap">
+			select *
+			from Board b
+			JOIN BReply r
+			on b.bNo = r.bNo
+			where r.rNo=#{rNo}
+			order by r.rNo DESC
+		</select>
+		
+		<select id="selectBByCommentNick" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where r.rNick like '%'||#{rNick}||'%' 
+			order by b.bNo DESC
+		</select>
+		
+		<select id="selectBByCommentId" resultMap="BoardResultMap">
+			select *
+		    from Board b
+		    left join BReply r
+		    on b.bNo = r.bNo
+		    where b.bNo IN (select b.bNo
+		                    from Board b
+		                    LEFT JOIN BReply r
+		                    on b.bNo = r.bNo
+		                    where r.rMid like '%'||#{r.rMid}||'%' 
+		                    )
+		    order by b.bNo DESC
+		</select>
+		
+		<select id="selectBByCommentContent" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where r.rContent like '%'||#{rContent}||'%' 
+			order by b.bNo DESC
+		</select>
+		
+		<select id="selectBByCommentNickNContent" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where r.rNick like '%'||#{Keyword}||'%' OR r.rContent like '%'||#{Keyword}||'%'
+			order by b.bNo DESC
+		</select>
+		
+		<select id="selectBAllAround" resultMap="BoardResultMap">
+			select *
+			from Board b
+			LEFT JOIN BReply r
+			on b.bNo = r.bNo
+			where b.bTitle like '%'||#{Keyword}||'%' 
+			   OR b.bContent like '%'||#{Keyword}||'%' 
+			   OR r.rNick like '%'||#{Keyword}||'%' 
+			   OR r.rContent like '%'||#{Keyword}||'%'
+			order by b.bNo DESC
+		</select>
+		
+
+</mapper>

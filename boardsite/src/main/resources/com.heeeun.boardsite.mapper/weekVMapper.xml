@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heeeun.boardsite.mapper.weekVMapper">
+	<insert id="insertweekV" parameterType="com.heeeun.boardsite.weekv.WeekV">
+		insert into WeekV(wNo,mId,wValue)
+		values(wNo.nextval,#{mId},#{wValue})
+	</insert>
+	
+	<select id="selectWAll" resultType="Integer">
+		select count(*)
+		from WeekV
+	</select>
+	
+	<select id="selectWBymId" resultType="com.heeeun.boardsite.weekv.WeekV">
+		select *
+		from WeekV
+		where mId = #{mId}
+	</select>
+	
+	<select id="selectWByOne" resultType="Integer">
+		select count(*)
+		from WeekV
+		where wValue = 1
+	</select>
+	
+	<select id="selectWByTwo" resultType="Integer">
+		select count(*)
+		from WeekV
+		where wValue = 2
+	</select>
+</mapper>
