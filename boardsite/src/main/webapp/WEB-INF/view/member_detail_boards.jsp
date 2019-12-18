@@ -288,7 +288,7 @@
 					    </div>
 					<div class="ppc-percents">
 				<div class="pcc-percents-wrapper">
-					<span id="grade_image"></span>
+					<img src="/img/${sessionScope.loginG } 64.png"/>
 				</div>
 					</div>
 					</div><!--End Chart -->

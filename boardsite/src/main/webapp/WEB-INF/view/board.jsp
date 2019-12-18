@@ -107,10 +107,10 @@
 					<jsp:useBean id="now" class="java.util.Date"/>
 					<fmt:formatDate value="${now}" pattern="yyyy/MM/dd" var="nowDate" />
 					<c:if test="${nowDate==admins.bDay}">
-						냥
+						<span class="label label-warning">New</span>
 					</c:if>
 					</td>
-					<td><img src="/img/cap 16.png"/><span id="board_nick">${admins.bNick}</span></td>
+					<td><img src="/img/1 16.png"/><span id="board_nick">${admins.bNick}</span></td>
 					<td id="board_time">
 								<fmt:formatDate value="${now}" pattern="yyyy/MM/dd" var="nowDate" />
 								<c:choose>
@@ -144,7 +144,11 @@
 						<span class="label label-warning">New</span>
 					</c:if>
 					</td>
-					<td id="board_nick">${boards.bNick}</td>
+					<td>
+					<c:if test="${boards.bGrade!=null }">
+						<img src="/img/${boards.bGrade } 16.png"/>
+					</c:if>
+					<span id="board_nick">${boards.bNick}</span></td>
 					<td id="board_time">
 								<fmt:formatDate value="${now}" pattern="yyyy/MM/dd" var="nowDate" />
 								<c:choose>

@@ -7,6 +7,7 @@
 			<result column="mId" property="mId"/>
 			<result column="bIp" property="bIp"/>
 			<result column="bNick" property="bNick"/>
+			<result column="bGrade" property="bGrade"/>
 			<result column="bPassword" property="bPassword"/>
 			<result column="bTitle" property="bTitle"/>
 			<result column="bContent" property="bContent"/>
@@ -32,6 +33,7 @@
 			<result column="mId" property="mId"/>
 			<result column="bIp" property="bIp"/>
 			<result column="bNick" property="bNick"/>
+			<result column="bGrade" property="bGrade"/>
 			<result column="bPassword" property="bPassword"/>
 			<result column="bTitle" property="bTitle"/>
 			<result column="bContent" property="bContent"/>
@@ -57,8 +59,8 @@
 		</resultMap>
 	<!-- Board -->
 		<insert id="insertBoard" parameterType="com.heeeun.boardsite.board.Board">
-			insert into Board(bNo,mId,bIp,bNick,bPassword,bTitle,bContent,bDay,bTime,bImage) 
-			values(bNo.nextval,#{mId},#{bIp},#{bNick},#{bPassword},#{bTitle},#{bContent},to_char(SYSDATE,'YYYY/MM/DD'),to_char(SYSDATE,'hh:mi:ss'),#{bImage})
+			insert into Board(bNo,mId,bIp,bNick,bGrade,bPassword,bTitle,bContent,bDay,bTime,bImage) 
+			values(bNo.nextval,#{mId},#{bIp},#{bNick},#{bGrade},#{bPassword},#{bTitle},#{bContent},to_char(SYSDATE,'YYYY/MM/DD'),to_char(SYSDATE,'hh:mi:ss'),#{bImage})
 		</insert>
 	
 		<update id="updateBoard" parameterType="com.heeeun.boardsite.board.Board">

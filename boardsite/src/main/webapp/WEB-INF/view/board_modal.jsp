@@ -13,24 +13,32 @@
         </button>
     </div>
     <div class="modal-body">
-	    <form id = "loveyou" action="insertBoard.do" method="post" enctype="multipart/form-data" >
+	    <form id = "b_write_form" action="insertBoard.do" method="post" enctype="multipart/form-data" >
 			
 			<div class="form-group row" style="display:none">
-				<label for="inputEmail3" class="col-sm-3 col-form-label text-center">아이디</label>
+				<label class="col-sm-3 col-form-label text-center">아이디</label>
 				<div class="col-sm-10">
-					<input class="form-control" id="mId" name="mId" placeholder="id"
+					<input class="form-control" id="mId" name="mId"
 						value="${sessionScope.loginM}">
 				</div>
 			</div>
 			<br>
 			<div class="form-group row">
-				<label for="inputEmail3" class="col-sm-3 col-form-label text-center">닉네임</label>
+				<label class="col-sm-3 col-form-label text-center">닉네임</label>
 				<div class="col-sm-6">
 					<input class="form-control" id="bNick" name = "bNick"
 					<c:if test="${sessionScope.loginN!=null }">
 					 readonly="readonly"
 					</c:if>
 						 value="${sessionScope.loginN}">
+				</div>
+			</div>
+						
+			<div class="form-group row" style="display:none">
+				<label class="col-sm-3 col-form-label text-center">등급</label>
+				<div class="col-sm-10">
+					<input class="form-control" id="bGrade" name="bGrade"
+						value="${sessionScope.loginG}">
 				</div>
 			</div>
 			<div class="form-group row" id="any_pass">

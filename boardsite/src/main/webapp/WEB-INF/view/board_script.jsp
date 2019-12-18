@@ -17,33 +17,7 @@ $(function(){
 		// 추출한 파일명 삽입
 		$("#upload_File").val(filename);
 	});
-	/*
-	닉네임 왼쪽에 아이콘 붙이기
-	*/
-	var g = $('#board_nick').text().trim();
-	switch (g){
-    case "(Lv7)" :
-        $('#grade_image').html('<img src="/img/seeds 64.png"/>');
-        break;
-    case "(Lv6)" :
-    	$('#grade_image').html('<img src="/img/leaf 64.png"/>');
-        break;
-    case "(Lv5)" :
-    	$('#grade_image').html('<img src="/img/tree 64.png"/>');
-        break;
-    case "(Lv4)" :
-    	$('#grade_image').html('<img src="/img/bird 64.png"/>');
-        break;
-    case "(Lv3)" :
-    	$('#grade_image').html('<img src="/img/thunder 64.png"/>');
-        break;
-    case "(Lv2)" :
-    	$('#grade_image').html('<img src="/img/saturn 64.png"/>');
-        break;
-    case "(Lv1)" :
-    	$('#grade_image').html('<img src="/img/cap 64.png"/>');
-        break;
-	};
+
 });
 
 /*
@@ -68,7 +42,7 @@ $(function(){
 				 if(bContent.trim()==null || bContent.trim()==''){
 					 alert('내용을 입력하세요');
 				 } else {
-					 $("#loveyou").submit();
+					 $("#b_write_form").submit();
 					 alert('작성되었습니다');
 					 location.reload();
 				 }
