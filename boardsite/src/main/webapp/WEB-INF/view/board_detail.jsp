@@ -58,7 +58,7 @@ hr {
         </button>
 		<hr />
 		<div class="top_div">
-			<span class="board_no" id=""><%=board.get(0).get("BNO")%></span> 
+			<span class="board_no"><%=board.get(0).get("BNO")%></span> 
 			<span class="line">|</span> 
 			<span class="board_nick"><%=board.get(0).get("BNICK")%></span> 
 			<span class="line">|</span> 
@@ -337,7 +337,7 @@ hr {
 		회원이 작성한 글 삭제하기
 		*/
 		function delete_board(){
-			var bNo = $('.board_no').val();
+			var bNo = $('.board_no').text();
 			var param = "bNo="+bNo;
 			//삭제할 권한이 있는가?
 			$.get('/udReady.do',
@@ -367,7 +367,7 @@ hr {
 		익명 글 삭제(modal function)
 		*/
 		function delete_board_a(){
-			var bNo = $('.board_no').val();
+			var bNo = $('.board_no').text();
 			var password = $('#d_bPassword').val();
 			var param = "bNo="+bNo+"&password="+password;
 			$.get('/deleteBoard_a.do',

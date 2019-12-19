@@ -221,7 +221,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/updateBoard.do", produces="application/json;charset=utf-8", method=POST)
-	public String updateBoard(@ModelAttribute com.heeeun.boardsite.board.Board board,MultipartFile file) throws Exception {
+	public String updateBoard(@ModelAttribute Board board,MultipartFile file) throws Exception {
 		/*
 		 * 이미지 파일 업로드
 		 */
@@ -315,9 +315,9 @@ public class BoardController {
 
 	}
 	@RequestMapping(value = "/deleteBoard.do", produces="plain/text;charset=utf-8")
-	public @ResponseBody String deleteBoard(@RequestParam int bNo) throws Exception {
-		System.err.println("bNo는 "+bNo);
-		if(boardService.deleteBoard(bNo)==true) {
+	public @ResponseBody String deleteBoard(@ModelAttribute Board board) throws Exception {
+		System.err.println("bNo는 "+board.getbNo());
+		if(boardService.deleteBoard(board)==true) {
 			return "삭제되었습니다.";
 		} else {
 			return "이미 삭제되었거나 존재하지않는 게시물입니다.";
@@ -325,13 +325,13 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/deleteBoard_a.do")
-	public @ResponseBody String deleteBoarda(@RequestParam int bNo,String password) throws Exception {
+	public @ResponseBody String deleteBoarda(@ModelAttribute Board board,String password) throws Exception {
 		String b_password = "";
-		if(boardService.selectBByNo(bNo).get(0).get("BPASSWORD")!=null) {
-			b_password = (String)boardService.selectBByNo(bNo).get(0).get("BPASSWORD");
+		if(boardService.selectBByNo(board.getbNo()).get(0).get("BPASSWORD")!=null) {
+			b_password = (String)boardService.selectBByNo(board.getbNo()).get(0).get("BPASSWORD");
 			if(password.equals(b_password)) {
 				try {
-					boardService.deleteBoard(bNo);
+					boardService.deleteBoard(board);
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
@@ -361,7 +361,7 @@ public class BoardController {
 		if(c.getbReply().get(0).getrMid()!=null) {
 			System.err.println(c.getbReply().get(0).getrMid());
 			if(c.getbReply().get(0).getrMid().equals(session.getAttribute("loginM"))) {
-				boardService.deleteComment(bReply.getrNo());
+				boardService.deleteComment(bReply);
 				System.err.println(c);
 				return "삭제되었습니다";//alert
 			} else {
@@ -382,7 +382,7 @@ public class BoardController {
 		Board board = boardService.selectBByCommentRno(bReply);
 		String rPassword = board.getbReply().get(0).getrPassword();
 		if(rPassword.equals(bReply.getrPassword())) {
-			boardService.deleteComment(bReply.getrNo());
+			boardService.deleteComment(bReply);
 			return "삭제되었습니다";
 		}
 		return "비밀번호가 일치하지 않습니다";

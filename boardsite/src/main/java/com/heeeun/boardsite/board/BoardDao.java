@@ -24,7 +24,7 @@ public interface BoardDao {
 	/*
 	 3. delete board
 	 */
-	boolean deleteBoard(int bNo) throws Exception;
+	boolean deleteBoard(Board board) throws Exception;
 
 	/***************board Comment****************/
 
@@ -41,7 +41,7 @@ public interface BoardDao {
 	/*
 	 6. delete board Comment
 	 */
-	boolean deleteComment(int rNo) throws Exception;
+	boolean deleteComment(BReply bReply) throws Exception;
 
 	/****************select****************/
 	List<Board> selectBAll() throws Exception;

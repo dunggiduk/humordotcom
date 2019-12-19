@@ -42,8 +42,8 @@ public class BoardServiceImpl implements BoardService {
 	 3. delete board
 	 */
 	@Override
-	public boolean deleteBoard(int bNo) throws Exception {
-		return boardDao.deleteBoard(bNo);
+	public boolean deleteBoard(Board board) throws Exception {
+		return boardDao.deleteBoard(board);
 	}
 	
 	/***************board Comment****************/
@@ -68,8 +68,8 @@ public class BoardServiceImpl implements BoardService {
 	 6. delete board Comment
 	 */
 	@Override
-	public boolean deleteComment(int rNo) throws Exception {
-		return boardDao.deleteComment(rNo);
+	public boolean deleteComment(BReply bReply) throws Exception {
+		return boardDao.deleteComment(bReply);
 	}
 	
 	/****************select****************/

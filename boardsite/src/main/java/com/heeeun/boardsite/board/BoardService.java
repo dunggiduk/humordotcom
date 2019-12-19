@@ -22,7 +22,7 @@ public interface BoardService {
 	/*
 	 3. delete board
 	 */
-	boolean deleteBoard(int bNo) throws Exception;
+	boolean deleteBoard(Board board) throws Exception;
 
 	/***************board Comment****************/
 
@@ -39,7 +39,7 @@ public interface BoardService {
 	/*
 	 6. delete board Comment
 	 */
-	boolean deleteComment(int rNo) throws Exception;
+	boolean deleteComment(BReply bReply) throws Exception;
 
 	/****************select****************/
 	/*

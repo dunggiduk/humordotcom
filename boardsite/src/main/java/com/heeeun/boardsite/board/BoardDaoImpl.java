@@ -61,9 +61,9 @@ public class BoardDaoImpl implements BoardDao {
 	 3. delete board
 	 */
 	@Override
-	public boolean deleteBoard(int bNo) throws Exception {
+	public boolean deleteBoard(Board board) throws Exception {
 		boolean deleteOk = false;
-		int resultNumber = sqlSession.delete(namespace +"deleteBoard", bNo);
+		int resultNumber = sqlSession.delete(namespace +"deleteBoard", board.getbNo());
 		if(resultNumber == 1) {
 			deleteOk = true;
 		}
@@ -102,9 +102,9 @@ public class BoardDaoImpl implements BoardDao {
 	 6. delete board Comment
 	 */
 	@Override
-	public boolean deleteComment(int rNo) throws Exception {
+	public boolean deleteComment(BReply bReply) throws Exception {
 		boolean deleteOk = false;
-		int resultNumber = sqlSession.delete(namespace +"deleteBoardC", rNo);
+		int resultNumber = sqlSession.delete(namespace +"deleteBoardC", bReply.getrNo());
 		if(resultNumber == 1) {
 			deleteOk = true;
 		}
