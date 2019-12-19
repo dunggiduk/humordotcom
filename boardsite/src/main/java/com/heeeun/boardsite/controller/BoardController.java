@@ -139,9 +139,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/drip_board_detail.do")
-	public String board_detail(@RequestParam int bNo,Model model) throws Exception {
-		List<Map> board = boardService.selectBByNo(bNo);
-		model.addAttribute("board", board);
+	public String board_detail(@ModelAttribute Board board,Model model) throws Exception {
+		List<Map> boards = boardService.selectBByNo(board.getbNo());
+		model.addAttribute("board", boards);
 		return "board_detail";
 	}
 	
@@ -219,7 +219,17 @@ public class BoardController {
 		System.err.println("결과"+b);
 		return "redirect:drip_board.do";
 	}
-	
+	@RequestMapping(value = "/updateBoardI.do", produces="application/json;charset=utf-8", method=POST)
+	public @ResponseBody String updateBoardI(@ModelAttribute Board board) throws Exception {
+		List<Map> b = boardService.selectBByNo(board.getbNo());
+		System.err.println(b.get(0).get("BPASSWORD"));
+		System.err.println(board.getbPassword());
+		if(b.get(0).get("BPASSWORD").equals(board.getbPassword())) {
+			return "1";
+		}else {
+			return "2";
+		}
+	}
 	@RequestMapping(value = "/updateBoard.do", produces="application/json;charset=utf-8", method=POST)
 	public String updateBoard(@ModelAttribute Board board,MultipartFile file) throws Exception {
 		/*
@@ -248,7 +258,6 @@ public class BoardController {
 		 * 아이디 업로드 (익명으로 글쓸시)
 		 */
 		if(board.getbIp()!=null||board.getbIp()!="") {//아이피 없는 사람.
-				System.err.println("여기서 부터 시작한다");
 				HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 				String ip = req.getHeader("X-FORWARDED-FOR");
 				  if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
@@ -282,19 +291,19 @@ public class BoardController {
 			board.setbPassword("password17528490");
 		}
 		System.err.println(board);
-		boolean b =  boardService.insertBoard(board);
+		boolean b =  boardService.updateBoard(board);
 		System.err.println("결과"+b);
 		return "redirect:drip_board.do";
 	}
 	@RequestMapping(value = "/udReady.do", produces="plain/text;charset=utf-8")
-	public @ResponseBody String udReady(@RequestParam int bNo,HttpSession session) throws Exception {
+	public @ResponseBody String udReady(@ModelAttribute Board board,HttpSession session) throws Exception {
 		String b_mid = "";
 		String sessionID = (String)session.getAttribute("loginM");
 		
-		if(boardService.selectBByNo(bNo).get(0).get("MID") == null) {//글에 저장되어 있는 아이디 정보
+		if(boardService.selectBByNo(board.getbNo()).get(0).get("MID") == null) {//글에 저장되어 있는 아이디 정보
 			b_mid = "null";
 		}else {
-			b_mid = (String)boardService.selectBByNo(bNo).get(0).get("MID");
+			b_mid = (String)boardService.selectBByNo(board.getbNo()).get(0).get("MID");
 		};
 		if(sessionID == null || sessionID.length()==0) {//mId는 data-slog에서 세션에 있는 아이디를 가져온 것.
 			sessionID = "null";
@@ -307,10 +316,10 @@ public class BoardController {
 				if(sessionID.equals("null")) {//로그인 하지 않았다면
 					return "1";//익명이 쓴 글에 익명의 사람이..패스워드 쓰는 modal로 연결
 				} else {
-					return "2";//익명X이 쓴 글에 익명X 사람이..바로 삭제
+					return "2";//익명X이 쓴 글에 익명X 사람이..
 				}
 			} else {
-				return "3";//삭제 거부. 매칭안됨.
+				return "3";//거부. 매칭안됨.
 			}
 
 	}
@@ -330,11 +339,8 @@ public class BoardController {
 		if(boardService.selectBByNo(board.getbNo()).get(0).get("BPASSWORD")!=null) {
 			b_password = (String)boardService.selectBByNo(board.getbNo()).get(0).get("BPASSWORD");
 			if(password.equals(b_password)) {
-				try {
 					boardService.deleteBoard(board);
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
+
 				return "1";
 			} else {
 				return "2";
@@ -396,41 +402,6 @@ public class BoardController {
 	/*************추천수***********************/
 	@RequestMapping(value="/Vote_Update.do", method=POST)
 	public @ResponseBody int voteUpdate(@ModelAttribute Vote vote,HttpSession session) throws Exception {
-		//mId가 null일 때 ip가져오기
-		if(session.getAttribute("loginM")==null||session.getAttribute("loginM")=="") {
-			/*
-			System.err.println("여기서 부터 시작한다");
-			HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
-			String ip = req.getHeader("X-FORWARDED-FOR");
-			  if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
-		            ip = req.getHeader("Proxy-Client-IP"); 
-		        } 
-		        if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
-		            ip = req.getHeader("WL-Proxy-Client-IP"); 
-		        } 
-		        if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
-		            ip = req.getHeader("HTTP_CLIENT_IP"); 
-		        } 
-		        if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
-		            ip = req.getHeader("HTTP_X_FORWARDED_FOR"); 
-		        }
-		        if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
-		            ip = req.getHeader("X-Real-IP"); 
-		        }
-		        if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
-		            ip = req.getHeader("X-RealIP"); 
-		        }
-		        if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
-		            ip = req.getHeader("REMOTE_ADDR");
-		        }
-		        if (ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)) { 
-		            ip = req.getRemoteAddr(); 
-		        }
-			System.err.println(ip);
-			vote.setmId(ip);
-			*/
-			return 3;
-	}
 		vote.setmId((String)session.getAttribute("loginM"));
 		System.err.println("vote의 정보 "+vote);
 		System.err.println("vote수 "+boardService.voteCheck(vote));

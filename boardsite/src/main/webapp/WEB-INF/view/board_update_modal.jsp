@@ -13,13 +13,25 @@
         </button>
     </div>
     <div class="modal-body">
-	    <form id = "update_b_form" action="updateBoard.do" method="post" enctype="multipart/form-data" >
-			
+	    <form id = "update_b_form" action="/updateBoard.do" method="post" enctype="multipart/form-data" >
+			<div class="form-group row" style="display:none">
+				<label class="col-sm-3 col-form-label text-center">글 번호</label>
+				<div class="col-sm-10">
+					<input class="form-control" name="bNo" id="update_bNo">
+				</div>
+			</div>
 			<div class="form-group row" style="display:none">
 				<label class="col-sm-3 col-form-label text-center">아이디</label>
 				<div class="col-sm-10">
 					<input class="form-control" name="mId" id="update_b_id"
 						value="${sessionScope.loginM}">
+				</div>
+			</div>
+			<div class="form-group row" style="display:none">
+				<label class="col-sm-3 col-form-label text-center">등급</label>
+				<div class="col-sm-10">
+					<input class="form-control" name="bGrade"
+						value="${sessionScope.loginG}">
 				</div>
 			</div>
 			<br>
@@ -35,8 +47,7 @@
 			<div class="form-group row"id="pass_f_up">
 			</div>
 			<div class="form-group row">
-				<label for="inputPassword3"
-					class="col-sm-3 col-form-label text-center">제목</label>
+				<label class="col-sm-3 col-form-label text-center">제목</label>
 				<div class="col-sm-6">
 					<input class="form-control" id="bTitle" name = "bTitle" >
 				</div>
@@ -56,12 +67,12 @@
 			    <label class="custom-file-label" for="upload_File"  data-browse="탐색"></label>
 			  </div>
 			</div>
-		</form>
 	</div>
 	  <div class="modal-footer">
-       	    <button type="button" class="btn btn-primary" onclick="board_submit()">작성</button>
+       	    <button type="submit" class="btn btn-primary" >작성</button>
         	<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
+		</form>
 </div>
 </div>
 </div>

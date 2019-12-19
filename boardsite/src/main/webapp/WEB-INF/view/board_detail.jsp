@@ -45,7 +45,7 @@ hr {
 		<br>
 		<h4 style="display: inline;" class="board_title"><%=board.get(0).get("BTITLE")%></h4>
 		<!-- 수정버튼 -->
-		<button  type="button" class="btn-lg close" id="update_modal_do" aria-label="Close" data-toggle="modal">
+		<button  type="button" class="btn-lg close" id="update_modal_do" aria-label="Close" onclick="update_board()">
           <span aria-hidden="true">수정</span>
         </button>
 		<!-- 삭제버튼 -->
@@ -53,7 +53,7 @@ hr {
           <span aria-hidden="true">&times;</span>
         </button>
         <!-- 숨겨져 있는 삭제 버튼 -->
-		<button id="boardDeleteHideButton" type="button" class="btn-lg close hide" aria-label="Close" data-toggle="modal" data-target="#board_delete_modal" >
+		<button id="boardDeleteHideButton" type="button" class="btn-lg close hide" aria-label="Close" data-toggle="modal" data-target="#password_confirm_modal" >
           <span aria-hidden="true">&times;</span>
         </button>
 		<hr />
@@ -185,7 +185,7 @@ hr {
 	</div>
 	<%@include file = "member_script.jsp" %>
 	<%@include file = "board_script.jsp" %> 
-	<%@include file = "board_delete_modal.jsp" %> 
+	<%@include file = "password_confirm_modal.jsp" %> 
 	<%@include file = "board_update_modal.jsp" %> 
 	<%@include file = "delete_comment_confirm.jsp" %> 
 	<script type="text/javascript">
@@ -220,17 +220,12 @@ hr {
 			})
 		});
 		/*
-		글 수정 모달 실행 유무
-		*/
-		$('#update_modal_do').click(function(){
-			$('#board_update_modal').modal();
-		});
-		/*
 		글 수정 모달 비밀번호 input
 		*/
 		if(!$('#update_b_id').val()){
 			$('#pass_f_up').html('<label for="inputPassword3"	class="col-sm-3 col-form-label text-center">비밀번호</label><div class="col-sm-6"><input type="password" class="form-control" id="bPassword" name = "bPassword" ></div>')
 		};
+
 	});
 
 
@@ -290,6 +285,7 @@ hr {
 					success : function(textData){
 								if(textData.trim()=='삭제되었습니다'||textData.trim()=='작성자만 삭제 가능합니다'){
 									alert(textData);
+									location.reload();
 								}else{
 									$('#delete_comment_confirm').modal();
 									$('#delete_rNo').text(textData);//modal의 value값 설정.
@@ -321,17 +317,50 @@ hr {
 		};
 		/***************board ud**************/
 		/*
-		글 수정하기
+		회원이 작성한 글 수정하기
 		*/
-		function update_board() {
-			var board_nick = $('.board_nick').text();
-			var board_password = <%=board.get(0).get("BPASSWORD")%>
-			var board_title = $('.board_title').text();
-			var board_content = $('.board_content').text();
-			alert('닉네임='+board_nick+' 비밀번호='+board_password+' 글제목='+board_title+' 글내용='+board_content);
-			$('#bPassword').val() = board_password;
-			$('#bTitle').val() = board_title;
-			$('#bContent').val() = board_content;
+		function update_board(){
+			var bNo = $('.board_no').text();
+			var param = "bNo="+bNo;
+			//수정할 권한이 있는가?
+			$.get('/udReady.do',
+					param,
+					function(data){
+						if(data=="3"){
+							alert("작성자만 수정 가능합니다");
+					  } else if (data=="2") {//아이디가 존재하는 글 수정
+						  alert('2');
+							$('#board_update_modal').modal();
+							$('#update_bNo').val(bNo);
+					   } else if (data=="1") {
+							//modal창.
+							//$('#board_update_modal').click();
+						   $('#password_confirm_modal').modal();
+							$('#password_confirm').click(function(){
+								update_board_a();
+							});
+						}
+			})
+		};
+		/*
+		익명 글 수정하기
+		*/
+		function update_board_a() {
+				var bNo = $('.board_no').text();
+				var password = $('#d_bPassword').val();
+				var param = "bNo="+bNo+"&bPassword="+password;
+				$.post('/updateBoardI.do',
+						param,
+						function(data){
+							if(data=="1"){
+								$('#board_update_modal').modal();
+								$('#update_bNo').val(bNo);
+							} else if (data=="2") {
+								alert("비밀번호가 일치하지않습니다");
+							} else {
+								alert("비밀번호가 존재하지 않는 글입니다");
+							}
+				})
 		};
 		/*
 		회원이 작성한 글 삭제하기
@@ -359,7 +388,13 @@ hr {
 							}
 					   } else if (data=="1") {
 							//modal창.
-							$('#boardDeleteHideButton').click();
+							$('#password_confirm_modal').modal();
+							/*
+							모달창에서 패스워드 입력 후 확인 버튼 눌렀을 때
+							*/
+							$('#password_confirm').click(function(){
+								delete_board_a();
+							});
 						}
 			})
 		};

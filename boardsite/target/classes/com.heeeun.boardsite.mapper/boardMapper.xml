@@ -65,7 +65,7 @@
 	
 		<update id="updateBoard" parameterType="com.heeeun.boardsite.board.Board">
 			update Board
-			set bNick=#{bNick}, bPassword=#{bPassword}, bTitle=#{bTitle}, bDay=to_char(SYSDATE,'YYYY/MM/DD'),bTime=to_char(SYSDATE,'hh:mi:ss'),bImage=#{bImage}
+			set bNick=#{bNick}, bPassword=#{bPassword}, bTitle=#{bTitle}, bDay=to_char(SYSDATE,'YYYY/MM/DD'),bTime=to_char(SYSDATE,'hh:mi:ss'),bImage=#{bImage},bGrade=#{bGrade}
 			where bNo = #{bNo}
 		</update>
 		
