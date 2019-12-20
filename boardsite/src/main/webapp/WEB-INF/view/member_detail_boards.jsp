@@ -46,6 +46,8 @@
 		top: 100px;
 		display: inline-block;
 		border-radius: 2px;
+		align-content: center; 
+		width: 100%;
 	}
 
 	.statChartHolder {
@@ -262,9 +264,21 @@
 			width: 50%;
 		}
 	}
-
+	.md_boards {
+		float:right; 
+		overflow: auto; 
+		height: 74vh;
 	}
-<
+	.blue {
+		color: black;
+	}
+	.purple {
+		font-size: 30px; 
+		color: black;
+	}
+	.board_no {
+		text-align: center;
+	}
   </style>
 </head>
 <body>
@@ -275,12 +289,9 @@
 		<!-- side bar -->
 		<%@include file="/WEB-INF/common_view/sidebar.jsp" %>
      	<!-- screen -->
-     	<div class="col-sm-9" style="float:right; overflow: auto; height: 74vh;">
-	
-
+     	<div class="col-sm-9 md_boards">
      		<!-- 도넛 차트 시작 -->
-     		<div class="progressDiv" style="align-content: center; width: 100%">
-     		
+     		<div class="progressDiv">
 				<div class="statChartHolder">
 					<div class="progress-pie-chart" data-percent="99"><!--Pie Chart -->
 						<div class="ppc-progress">
@@ -295,8 +306,8 @@
 				</div>
 				<div class="statRightHolder">
 					<ul>
-						<li> <h3 class="blue" style="color: black;">${sessionScope.loginN }</h3> <span>님</span><span id="grade_number">(Lv${sessionScope.loginG })</span></li>
-					    <li> <h3 class="purple" style="font-size: 30px; color: black;">${sessionScope.loginD }</h3> <span>가입</span></li>
+						<li> <h3 class="blue">${sessionScope.loginN }</h3> <span>님</span><span id="grade_number">(Lv${sessionScope.loginG })</span></li>
+					    <li> <h3 class="purple">${sessionScope.loginD }</h3> <span>가입</span></li>
 					</ul>
 					<ul class="statsLeft">
 					    <li><h3 class="yellow">총 게시글</h3> <span>${write_b }개</span></li>
@@ -379,7 +390,7 @@
      		<hr style="border: 5;">
 			<c:choose>
 				<c:when test="${write_b==0 }">
-					<p style="text-align: center;">작성한 글이 없습니다.</p>
+					<p class="board_no">작성한 글이 없습니다.</p>
 					<br>
 				</c:when>
 				<c:otherwise>
@@ -442,10 +453,10 @@
     	</div>
     	<%@include file="/WEB-INF/common_view/footer.jsp"%>
     	</div>
-<%@include file = "member_detail_boards_script.jsp" %>
-<%@include file = "member_script.jsp" %>
-<%@include file = "board_script.jsp" %> 
-<%@include file = "register_script.jsp" %>
-<%@include file = "register_modal.jsp" %> 
+<%@include file = "/WEB-INF/script/member_detail_boards_script.jsp" %>
+<%@include file = "/WEB-INF/script/member_script.jsp" %>
+<%@include file = "/WEB-INF/script/board_script.jsp" %> 
+<%@include file = "/WEB-INF/script/register_script.jsp" %>
+<%@include file = "/WEB-INF/modal/register_modal.jsp" %> 
 </body>
 </html>

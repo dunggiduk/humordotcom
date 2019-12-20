@@ -56,6 +56,14 @@
     div.has-error > span.glyphicon{
         right: 12px;
     }
+    .screen {
+    	height: 71vh;
+    }
+    .vali_notice {
+    	font-size:0.8em; 
+    	float: inherit; 
+    	margin-top: 0.5em;
+    }
   </style>
 </head>
 <body>
@@ -66,7 +74,7 @@
 		<!-- side bar -->
 		<%@include file="/WEB-INF/common_view/sidebar.jsp" %>
      	<!-- screen -->
-     		<div class="col-sm-9" style="height: 71vh;">
+     		<div class="col-sm-9 screen">
      		<br>
      		<br>
      		<br>
@@ -91,7 +99,7 @@
 					<label class="col-sm-3 control-label"><span id="red">* </span>비밀번호</label> 
 					<div class="col-sm-5">
 						<input type="password" class="form-control" name="mPassword" id="mPassword_set">
-						<span style="font-size:0.8em; float: inherit; margin-top: 0.5em;">8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요</span>
+						<span class="vali_notice">8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요</span>
 					</div>
 				</div>
 				<hr>
@@ -115,10 +123,10 @@
 		    </div>
      	    <%@include file="/WEB-INF/common_view/footer.jsp"%>
 		    </div>
-	<%@include file = "register_script.jsp" %>
-	<%@include file = "board_script.jsp" %>
-	<%@include file = "register_modal.jsp" %>
-	<%@include file = "member_script.jsp" %>
+	<%@include file = "/WEB-INF/script/register_script.jsp" %>
+	<%@include file = "/WEB-INF/script/board_script.jsp" %>
+	<%@include file = "/WEB-INF/modal/register_modal.jsp" %>
+	<%@include file = "/WEB-INF/script/member_script.jsp" %>
 	<script type="text/javascript">
 	$(function(){
 		member_setting();

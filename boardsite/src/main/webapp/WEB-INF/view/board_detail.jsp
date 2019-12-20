@@ -37,13 +37,29 @@ hr {
 #nav_footer{
 	margin-bottom:0px;
 }
+h4 {
+	display: inline;
+}
+.comment_count {
+	 font-weight:900;
+}
+.disnon {
+	display: none;
+}
+.matbot{
+	margin-top: 0px; 
+	border-top: 1px solid #ddd;
+}
+table {
+	margin-bottom: 0px;
+}
 </style>
 </head>
 <body>
 	<div class="container">
 	<%@include file= "/WEB-INF/common_view/header.jsp" %>
 		<br>
-		<h4 style="display: inline;" class="board_title"><%=board.get(0).get("BTITLE")%></h4>
+		<h4 class="board_title"><%=board.get(0).get("BTITLE")%></h4>
 		<!-- 수정버튼 -->
 		<button  type="button" class="btn-lg close" id="update_modal_do" aria-label="Close" onclick="update_board()">
           <span aria-hidden="true">수정</span>
@@ -89,7 +105,7 @@ hr {
 			</div>
 		</div>
 		<br>
-		<span style="font-weight:900;">
+		<span class="comment_count">
 		댓글 
 		<c:choose>
 	        <c:when test="${board.get(0).RNO!=null}">
@@ -104,7 +120,7 @@ hr {
 		<br>
 		<br>
 		
-		<table class="table" style="margin-bottom: 0px;">
+		<table class="table" >
 			<colgroup>
 				<col style="width: 16%">
 				<col>
@@ -136,18 +152,18 @@ hr {
 				</c:forEach>
 			</tbody>
 		</table>
-		<hr style="margin-top: 0px; border-top: 1px solid #ddd;" />
+		<hr class="matbot" />
 		<span  style="font-weight:900;">댓글쓰기</span>
 		<hr />
 		<br>
 		<form>
-			<div class="form-group row" style="display:none">
+			<div class="form-group row disnon">
 				<div class="col-sm-10">
 					<input class="form-control" id="bNo" placeholder="글번호"
 						value="<%=board.get(0).get("BNO")%>">
 				</div>
 			</div>
-			<div class="form-group row" style="display:none">
+			<div class="form-group row disnon">
 				<div class="col-sm-10">
 					<input class="form-control" id="rMid" placeholder="id"
 						value="${sessionScope.loginM}">
@@ -183,11 +199,11 @@ hr {
 		<br>
 		<%@include file= "/WEB-INF/common_view/footer.jsp" %>
 	</div>
-	<%@include file = "member_script.jsp" %>
-	<%@include file = "board_script.jsp" %> 
-	<%@include file = "password_confirm_modal.jsp" %> 
-	<%@include file = "board_update_modal.jsp" %> 
-	<%@include file = "delete_comment_confirm.jsp" %> 
+	<%@include file = "/WEB-INF/script/member_script.jsp" %>
+	<%@include file = "/WEB-INF/script/board_script.jsp" %> 
+	<%@include file = "/WEB-INF/modal/password_confirm_modal.jsp" %> 
+	<%@include file = "/WEB-INF/modal/board_update_modal.jsp" %> 
+	<%@include file = "/WEB-INF/modal/delete_comment_confirm_modal.jsp" %> 
 	<script type="text/javascript">
 	$(function(){
 		/*로그인 안했을 때 댓글에 비밀번호 치기*/

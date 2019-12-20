@@ -60,6 +60,30 @@
 			color: red;
 			font-size: 0.5rem
 		}
+		#board_w {
+			vertical-align: middle;
+		}
+		h4 {
+			display: inline; vertical-align: middle;
+		}
+		#tr_list_a {
+			background-color: #dcdcdc;
+		}
+		#board_title_a{
+			color: red; font-weight: bold;
+		}
+		.adminb {
+			color: red;
+		}
+		.normalb {
+			color: black;
+		}
+		.disin {
+			display: inline;
+		}
+		.disnon {
+			display: none;
+		}
 	</style>
 
 </head>
@@ -68,8 +92,8 @@
 	<div class="container">
 		<%@include file= "/WEB-INF/common_view/header.jsp" %>
 			<br>
-			<h4 style="display: inline; vertical-align: middle;">유머 게시판</h4>
-			<button style="vertical-align: middle;" id = "board_w"class="btn btn-dark" data-toggle="modal" data-target="#board_modal">글쓰기</button>
+			<h4 >유머 게시판</h4>
+			<button id = "board_w" class="btn btn-dark" data-toggle="modal" data-target="#board_modal">글쓰기</button>
 		<table class="table table-sm table-hover text-#7f888f">
 			<colgroup>
 				<col style="width:6%">
@@ -91,9 +115,9 @@
 			</thead>
 			<tbody>
 				<c:forEach var="admins" items="${adminList }">
-				<tr id = "tr_list" style="background-color: #dcdcdc;">
+				<tr id = "tr_list_a">
 					<th scope="row" id="board_no">${admins.bNo}</th>
-					<td class="board_title text-decoration-none" id="board_title" style="color: red; font-weight: bold;"><a href="drip_board_detail.do?bNo=${admins.bNo}" style="color: red;">${admins.bTitle}</a>
+					<td class="board_title text-decoration-none" id="board_title_a"><a class="adminb" href="drip_board_detail.do?bNo=${admins.bNo}">${admins.bTitle}</a>
 					    [
 					<c:choose>
 						<c:when test="${admins.bReply.get(0).rNick!=null }">
@@ -129,7 +153,7 @@
 				<c:forEach var="boards" items="${boardList }">			
 				<tr id = "tr_list">
 					<th scope="row" id="board_no">${boards.bNo}</th>
-					<td class="board_title text-decoration-none" id="board_title"><a href="drip_board_detail.do?bNo=${boards.bNo}" style="color: black;">${boards.bTitle}</a>
+					<td class="board_title text-decoration-none" id="board_title"><a class="normalb" href="drip_board_detail.do?bNo=${boards.bNo}">${boards.bTitle}</a>
 					  [
 					<c:choose>
 						<c:when test="${boards.bReply.get(0).rNo!=0 }">
@@ -189,11 +213,11 @@
 	    </div>
 	</div>
 
-<%@include file = "member_script.jsp" %>
-<%@include file = "board_script.jsp" %> 
-<%@include file = "register_script.jsp" %>
-<%@include file = "board_modal.jsp" %> 
-<%@include file = "register_modal.jsp" %> 
+<%@include file = "/WEB-INF/script/member_script.jsp" %>
+<%@include file = "/WEB-INF/script/board_script.jsp" %> 
+<%@include file = "/WEB-INF/script/register_script.jsp" %>
+<%@include file = "/WEB-INF/modal/board_modal.jsp" %> 
+<%@include file = "/WEB-INF/modal/register_modal.jsp" %> 
 
 
 </body>
