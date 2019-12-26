@@ -453,6 +453,7 @@
     	</div>
     	<%@include file="/WEB-INF/common_view/footer.jsp"%>
     	</div>
+<%@include file = "/WEB-INF/script/sidebar_script.jsp" %>
 <%@include file = "/WEB-INF/script/member_detail_boards_script.jsp" %>
 <%@include file = "/WEB-INF/script/member_script.jsp" %>
 <%@include file = "/WEB-INF/script/board_script.jsp" %> 

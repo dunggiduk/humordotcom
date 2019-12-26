@@ -1,5 +1,16 @@
 <%@page contentType="text/html;charset=UTF-8" %>
 <script type = "text/javascript">
+/*
+admin 회원 검색
+*/
+$(document).ready(function(){
+  $("#InfoInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();//영문을 검색했다면 검색한 것을 소문자로 바꿈.
+    $("#infoTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)//indexOf는 일치하는 값이 없으면 -1을 반환함.
+    });
+  });
+});
 $(function(){
 	/*
 	헤더에 로그인 유지하기
@@ -10,6 +21,7 @@ $(function(){
 	} else {
 		logout_header();
 	}
+
 });
 	/*
 	* 로그인 하기
@@ -130,4 +142,23 @@ $(function(){
 		$('#logoutH').removeClass("hide");
 		$('#logoutH').addClass("show");
 	};
+	/****************admin***************/
+	/*
+	회원 탈퇴 처리
+	*/
+	function admin_delete_m(mId){
+		var param = "mId="+mId;
+		if(confirm('정말 탈퇴시키겠습니까?')){
+			$.post("/admin_delete_member.do",param,function(data){
+				if(data=='true'){
+					alert('탈퇴처리되었습니다');
+					location.reload();
+				} else {
+					alert('에러입니다');
+				}
+			})
+		} else {
+			alert('취소되었습니다');			
+		}
+	}
 </script>

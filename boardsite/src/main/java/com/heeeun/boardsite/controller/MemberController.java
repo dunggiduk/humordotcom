@@ -2,6 +2,8 @@ package com.heeeun.boardsite.controller;
 
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,8 @@ public class MemberController {
 		return "redirect:drip_board.do";
 	}
 	
-	@RequestMapping(value="/insert_member.do", method = RequestMethod.POST)
+	@RequestMapping(value="/insert_member.do", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public @ResponseBody String insertPostMember(@ModelAttribute Member member) throws Exception{
-		System.err.println(member);
 		Member m = memberService.selectById(member.getmId());
 		if(m==null) {
 			memberService.insertMember(member);
@@ -47,19 +48,15 @@ public class MemberController {
 	
 	@RequestMapping(value="/login_member.do", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public @ResponseBody String loginMember(@ModelAttribute Member member, HttpSession session) throws Exception{
-		System.err.println("member는는는"+member);
 		Member m1 = memberService.selectById(member.getmId());
-		System.err.println("m1은"+m1);
 		if(m1!=null) {
 			if(m1.getmActivity()==0) {
 				if(member.getmPassword().equals(m1.getmPassword())) {
 					Member m = memberService.loginMember(member);
-					System.err.println(m);
 					session.setAttribute("loginM",member.getmId());
 					session.setAttribute("loginN", m.getmNick());
 					session.setAttribute("loginG", m.getmGrade());
 					session.setAttribute("loginD", m.getmJoinDate());
-					System.err.println(m.getmJoinDate());
 					return m.getmId();
 				}else {
 					return"틀림";
@@ -106,7 +103,7 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping(value="/drip_member_detail.do", method=RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value="/drip_member_detail.do", method=RequestMethod.GET)
 	public String memberDetail(@RequestParam String mId,Model model,HttpSession session) throws Exception {
 		String sessionMid = (String)session.getAttribute("loginM");
 		Member m = memberService.selectById(mId);
@@ -127,7 +124,6 @@ public class MemberController {
 	public String memberWithDrawal(@RequestParam String mId,Model model,HttpSession session) throws Exception {
 		String sessionMid = (String)session.getAttribute("loginM");
 		Member m = memberService.selectById(mId);
-		System.err.println(m);
 		if(m!=null) {
 			if(mId.equals(sessionMid)) {
 				model.addAttribute("m", m);
@@ -137,12 +133,10 @@ public class MemberController {
 		return "redirect:drip_board.do";
 	}
 
-	@RequestMapping(value="/drip_member_withdrawal_action.do", method=RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value="/drip_member_withdrawal_action.do", method=RequestMethod.POST)
 	public @ResponseBody String memberWithDrawal(@ModelAttribute Member member,Model model,HttpSession session) throws Exception {
-		System.err.println("member는는는는"+member);
 		String sessionMid = (String)session.getAttribute("loginM");
 		Member m = memberService.selectById(member.getmId());
-		System.err.println(m);
 		if(m!=null) {
 			if(member.getmId().equals(sessionMid)) {
 				System.err.println("세션값과 멤버값이 같다");
@@ -164,5 +158,26 @@ public class MemberController {
 		return "false2";
 	}
 	
+	@RequestMapping(value="/admin_delete_member.do", method=RequestMethod.POST)
+	public @ResponseBody String adminDMember(@ModelAttribute Member member,HttpSession session) throws Exception {
+		if("admin".equals(session.getAttribute("loginM"))) {
+			memberService.deleteMember(member.getmId());
+			return "true";
+		}
+		return "false";
+	}
 	
+	@RequestMapping(value="/member_manage.do", method=RequestMethod.GET)
+	public String memberManage(Model model,HttpSession session) throws Exception {
+		if("admin".equals(session.getAttribute("loginM"))){
+			List<Member> m1 = memberService.selectAAll();
+			model.addAttribute("memberAll", m1);
+			List<Member> m2 = memberService.selectNAAll();
+			model.addAttribute("memberNAll", m2);
+			return "member_manage";
+		}
+		return "redirect:drip_board.do";
+	}
+		
+
 }

@@ -43,4 +43,8 @@ public interface MemberService {
 	Member loginMember(Member member) throws Exception;
 
 	Member selectByMail(String mMail) throws Exception;
+
+	List<Member> selectAAll() throws Exception;
+
+	List<Member> selectNAAll() throws Exception;
 }

@@ -62,6 +62,21 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	
 	/*
+	 Select All
+	 */
+	@Override
+	public List<Member> selectAAll() throws Exception {
+		List<Member> allMember = sqlsession.selectList(namespace + "selectAAll");
+		return allMember;
+	}
+	
+	@Override
+	public List<Member> selectNAAll() throws Exception{
+		List<Member> allNAMember = sqlsession.selectList(namespace + "selectNAAll");
+		return allNAMember;
+	}
+	
+	/*
 	 Select By Id
 	 */
 	@Override
@@ -98,4 +113,5 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlsession.selectOne(namespace +"loginMember", member);
 	
 	}
+
 }

@@ -100,6 +100,7 @@
      		  <%@include file="/WEB-INF/common_view/footer.jsp"%>
      		</div>
      <div id = "love"></div>
+     <%@include file = "/WEB-INF/script/sidebar_script.jsp" %>
      <%@include file = "/WEB-INF/script/withdrawal_script.jsp" %>
      <%@include file = "/WEB-INF/modal/withdrawal_confirm_modal.jsp" %>
      <%@include file = "/WEB-INF/script/member_script.jsp" %>

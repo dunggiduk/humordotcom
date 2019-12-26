@@ -14,13 +14,27 @@
 	
 	<delete id="deleteMember">
 		update member
-		set mActivity = 1
+		set mActivity = 1 ,mDeleteDate = SYSDATE
 		where mId = #{mId}
 	</delete>
 
 	<select id="selectAll" resultType="com.heeeun.boardsite.member.Member">
 		select *
 		from member
+	</select>
+	
+	<select id="selectAAll" resultType="com.heeeun.boardsite.member.Member">
+		select *
+		from member
+		where mActivity = 0
+		order by mJoinDate DESC
+	</select>
+	
+	<select id="selectNAAll" resultType="com.heeeun.boardsite.member.Member">
+		select *
+		from member
+		where mActivity = 1
+		order by mDeleteDate DESC
 	</select>
 
 	<select id="selectById" resultType="com.heeeun.boardsite.member.Member">

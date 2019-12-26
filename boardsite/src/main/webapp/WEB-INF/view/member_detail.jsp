@@ -123,6 +123,7 @@
 		    </div>
      	    <%@include file="/WEB-INF/common_view/footer.jsp"%>
 		    </div>
+	<%@include file = "/WEB-INF/script/sidebar_script.jsp" %>		    
 	<%@include file = "/WEB-INF/script/register_script.jsp" %>
 	<%@include file = "/WEB-INF/script/board_script.jsp" %>
 	<%@include file = "/WEB-INF/modal/register_modal.jsp" %>

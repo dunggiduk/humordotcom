@@ -26,7 +26,7 @@
 }
 
 .top_div {
-	padding: 6px 6px 6px 6px;
+	padding: 6px;
 }
 
 hr {
@@ -35,7 +35,7 @@ hr {
 	border-width: 1px;
 }
 #nav_footer{
-	margin-bottom:0px;
+	margin-bottom:0;
 }
 h4 {
 	display: inline;
@@ -47,11 +47,11 @@ h4 {
 	display: none;
 }
 .matbot{
-	margin-top: 0px; 
+	margin-top: 0; 
 	border-top: 1px solid #ddd;
 }
 table {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 </style>
 </head>

@@ -45,6 +45,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	/*
+	 Select All
+	 */
+	@Override
+	public List<Member> selectAAll() throws Exception {
+		return memberDao.selectAAll();
+	}
+
+	@Override
+	public List<Member> selectNAAll() throws Exception{
+		return memberDao.selectNAAll();
+	}
+	/*
 	 Select By Id
 	 */
 	@Override
@@ -73,4 +85,5 @@ public class MemberServiceImpl implements MemberService {
 	public Member loginMember(Member member) throws Exception {
 		return memberDao.loginMember(member);
 	}
+
 }

@@ -41,7 +41,7 @@
 	}
 	ul{
 		list-style: none;
-		padding : 0px;
+		padding : 0;
 		font-size: 12px;
 	}
 	#gflhopirvtqnwmuskj .post-wrap {
@@ -80,7 +80,7 @@
 		padding-right: 15px;
 	}
 	.positionM{
-	    margin: 5rem 0rem;
+	    margin: 5rem 0;
 	}
 	.funbox{
 		border: 1px solid #DBDBDB; 
@@ -133,8 +133,8 @@
 	}
 	.main_ul {
 		 list-style: none; 
-		 padding-left: 0px; 
-		 margin-bottom: 0px;
+		 padding-left: 0; 
+		 margin-bottom: 0;
 	}
 	.main_li {
 		margin-bottom: 3px;
